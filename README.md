@@ -14,7 +14,7 @@ pip install reflex-webcam
 ## Import package
 
 ```python
-import rx_webcam.webcam as webcam
+import reflex_webcam as webcam
 ```
 
 ## Simple Usage (Screenshot)
@@ -30,7 +30,7 @@ from urllib.request import urlopen
 from PIL import Image
 
 import reflex as rx
-import rx_webcam.webcam as webcam
+import reflex_webcam as webcam
 
 
 # Identifies a particular webcam component in the DOM
@@ -111,7 +111,7 @@ app.add_page(index)
 
 # Advanced Usage (Video recording)
 
-To run the webcam with video recording capabilities follow the instructions below to run the webcam_demo in this repo.
+To run the webcam with video recording capabilities follow the instructions below to run the webcam_demo in this Github repo.
 
 ```bash
 cd webcam

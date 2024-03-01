@@ -5,7 +5,7 @@ from urllib.request import urlopen
 from PIL import Image
 
 import reflex as rx
-import rx_webcam.webcam as webcam
+import reflex_webcam as webcam
 
 
 # Identifies a particular webcam component in the DOM
@@ -16,7 +16,7 @@ VIDEO_FILE_NAME = "video.webm"
 APP_PATH = Path(__file__)
 APP_MODULE_DIR = APP_PATH.parent
 SOURCE_CODE = [
-    APP_MODULE_DIR.parent.parent / "custom_components/rx_webcam/webcam.py",
+    APP_MODULE_DIR.parent.parent / "custom_components/reflex_webcam/webcam.py",
     APP_PATH,
     APP_MODULE_DIR.parent / "requirements.txt",
 ]
