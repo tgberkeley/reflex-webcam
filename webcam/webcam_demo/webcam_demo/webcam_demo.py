@@ -1,13 +1,11 @@
-
-
 """Take screenshots and video recordings from webcam."""
 import time
 from pathlib import Path
 from urllib.request import urlopen
-import rx_webcam.webcam as webcam
 from PIL import Image
 
 import reflex as rx
+import rx_webcam.webcam as webcam
 
 
 # Identifies a particular webcam component in the DOM
@@ -47,7 +45,6 @@ class State(rx.State):
             # convert to webp during serialization for smaller size
             self.last_screenshot.format = "WEBP"  # type: ignore
 
-    
     def _video_path(self) -> Path:
         return Path(rx.get_upload_dir()) / VIDEO_FILE_NAME
 
@@ -102,8 +99,8 @@ def last_screenshot_widget() -> rx.Component:
                 rx.text(State.last_screenshot_timestamp),
             ),
             rx.center(
-                rx.text("Click to capture image.", size="4"),
-                ),
+                rx.text("Click image to capture.", size="4"),
+            ),
         ),
         height="270px",
     )
@@ -142,13 +139,14 @@ def webcam_upload_component(ref: str) -> rx.Component:
         ),
         rx.cond(
             State.video_exists,
-            rx.link("Download Last Video", href=rx.get_upload_url(VIDEO_FILE_NAME), size="4"),
+            rx.link(
+                "Download Last Video", href=rx.get_upload_url(VIDEO_FILE_NAME), size="4"
+            ),
         ),
         last_screenshot_widget(),
         width="320px",
         align="center",
     )
-
 
 
 def index() -> rx.Component:
