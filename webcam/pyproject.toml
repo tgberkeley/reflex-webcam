@@ -26,7 +26,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com"
+Homepage = "https://github.com/tgberkeley/reflex-webcam"
+Repository = "https://github.com/tgberkeley/reflex-webcam"
 
 [project.optional-dependencies]
 dev = ["build", "twine"]
