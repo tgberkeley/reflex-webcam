@@ -1,3 +1,20 @@
+Metadata-Version: 2.1
+Name: reflex-webcam
+Version: 0.0.5
+Summary: Reflex custom component webcam
+Author-email: Tom Gotsman <tgotsman12@gmail.com>
+License: Apache-2.0
+Project-URL: Homepage, https://github.com/tgberkeley/reflex-webcam
+Project-URL: Repository, https://github.com/tgberkeley/reflex-webcam
+Keywords: reflex,reflex-custom-components
+Classifier: Development Status :: 4 - Beta
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: reflex>=0.4.2
+Provides-Extra: dev
+Requires-Dist: build; extra == "dev"
+Requires-Dist: twine; extra == "dev"
+
 # reflex-webcam
 
 Package for a webcam for the [Reflex Framework](https://github.com/reflex-dev/reflex)

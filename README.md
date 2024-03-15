@@ -114,7 +114,6 @@ app.add_page(index)
 To run the webcam with video recording capabilities follow the instructions below to run the webcam_demo in this Github repo.
 
 ```bash
-cd webcam
 cd webcam_demo
 reflex init
 reflex run
