@@ -48,7 +48,7 @@ class State(rx.State):
     def _video_path(self) -> Path:
         return Path(rx.get_upload_dir()) / VIDEO_FILE_NAME
 
-    @rx.cached_var
+    @rx.var(cache=True)
     def video_exists(self) -> bool:
         if not self.recording:
             return self._video_path().exists()
@@ -151,7 +151,7 @@ def webcam_upload_component(ref: str) -> rx.Component:
 
 def index() -> rx.Component:
     return rx.fragment(
-        rx.color_mode.button(rx.color_mode.icon(), float="right"),
+        rx.color_mode.button(position="top-right"),
         rx.center(
             webcam_upload_component(WEBCAM_REF),
             padding_top="3em",
