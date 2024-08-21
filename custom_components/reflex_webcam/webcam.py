@@ -32,6 +32,8 @@ class Webcam(rx.Component):
     # show camera preview and get the screenshot mirrored
     mirrored: Var[bool] = False
 
+    # allow passing video constraints such as facingMode
+    video_constraints: Var[dict] = {}
 
     special_props: set[Var] = [Var.create("muted")]
 
