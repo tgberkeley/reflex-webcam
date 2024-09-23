@@ -1,8 +1,9 @@
 """Reflex custom component Webcam."""
-import reflex as rx
+from __future__ import annotations
+from typing import Any, List
 
+import reflex as rx
 from reflex.vars import Var
-from typing import Any
 
 
 class Webcam(rx.Component):
@@ -35,14 +36,14 @@ class Webcam(rx.Component):
     # allow passing video constraints such as facingMode
     video_constraints: Var[dict] = {}
 
-    special_props: set[Var] = [Var.create("muted")]
+    special_props: set[Var] = [Var.create_safe("muted", _var_is_string=False)]
 
-    def _get_hooks(self) -> str | None:
+    def add_hooks(self) -> List[str]:
         if self.id is not None:
-            return (
-                super()._get_hooks() or ""
-            ) + f"refs['mediarecorder_{self.id}'] = useRef(null)"
-        return super()._get_hooks()
+            return [
+                f"refs['mediarecorder_{self.id}'] = useRef(null)",
+            ]
+        return []
 
 
 webcam = Webcam.create
@@ -60,11 +61,19 @@ def upload_screenshot(ref: str, handler: rx.event.EventHandler):
     )
 
 
+def _validate_event_handler(handler: Any, name: str) -> None:
+    if not isinstance(handler, rx.event.EventHandler):
+        raise ValueError(
+            f"{name} must be an EventHandler referenced from a state class, "
+            f"got {handler}."
+        )
+
+
 def start_recording(
     ref: str,
     on_data_available: rx.event.EventHandler,
-    on_start: rx.event.EventHandler = None,
-    on_stop: rx.event.EventHandler = None,
+    on_start: rx.event.EventHandler | None = None,
+    on_stop: rx.event.EventHandler | None = None,
     timeslice: str = "",
 ) -> str:
     """Helper to start recording a video from a webcam component.
@@ -75,10 +84,12 @@ def start_recording(
     Returns:
         The ref of the media recorder to stop recording.
     """
+    _validate_event_handler(on_data_available, "on_data_available")
     on_data_available_event = rx.utils.format.format_event(
         rx.event.call_event_handler(on_data_available, arg_spec=lambda data: [data])
     )
     if on_start is not None:
+        _validate_event_handler(on_start, "on_start")
         on_start_event = rx.utils.format.format_event(
             rx.event.call_event_handler(on_start, arg_spec=lambda e: [])
         )
@@ -87,6 +98,7 @@ def start_recording(
         on_start_callback = ""
 
     if on_stop is not None:
+        _validate_event_handler(on_stop, "on_stop")
         on_stop_event = rx.utils.format.format_event(
             rx.event.call_event_handler(on_stop, arg_spec=lambda e: [])
         )
