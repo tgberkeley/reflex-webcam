@@ -1,6 +1,7 @@
 """Take screenshots and video recordings from webcam."""
 
 import time
+from inspect import getfile
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -15,11 +16,11 @@ VIDEO_FILE_NAME = "video.webm"
 # The path containing the app
 APP_PATH = Path(__file__)
 APP_MODULE_DIR = APP_PATH.parent
-SOURCE_CODE = [
-    APP_MODULE_DIR.parent.parent / "custom_components/reflex_webcam/webcam.py",
-    APP_PATH,
-    APP_MODULE_DIR.parent / "requirements.txt",
-]
+SOURCE_CODE = {
+    "reflex_webcam/webcam.py": Path(getfile(webcam)),
+    "webcam_demo/webcam_demo.py": APP_PATH,
+    "webcam_demo/requirements.txt": APP_MODULE_DIR.parent / "requirements.txt",
+}
 
 # Mark Upload as used so StaticFiles can get mounted on /_upload
 rx.upload()
@@ -184,9 +185,9 @@ def index() -> rx.Component:
         ),
         *[
             rx.vstack(
-                rx.heading(f"Source Code: {p.name}"),
+                rx.heading(f"Source Code: {name}"),
                 rx.code_block(
-                    p.read_text(),
+                    path.read_text() if path.exists() else "Missing source",
                     language="python",
                     width="90%",
                     overflow_x="auto",
@@ -196,7 +197,7 @@ def index() -> rx.Component:
                 width="100vw",
                 align="center",
             )
-            for p in SOURCE_CODE
+            for name, path in SOURCE_CODE.items()
         ],
     )
 
