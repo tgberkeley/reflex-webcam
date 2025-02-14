@@ -158,7 +158,8 @@ def webcam_upload_component(ref: str) -> rx.Component:
             ),
             rx.tabs.content(
                 rx.video(
-                    url=f"{rx.get_upload_url(State.video_path)}?r={State.n_recordings}",
+                    # Remove pyright ignore after reflex-dev/reflex#4826
+                    url=f"{rx.get_upload_url(State.video_path)}?r={State.n_recordings}",  # pyright: ignore[reportArgumentType]
                     playing=True,
                     width="320px",
                     key=State.recording,
