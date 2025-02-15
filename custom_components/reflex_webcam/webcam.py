@@ -14,7 +14,12 @@ refs['mediarecorder_start_{{ ref }}'] = useCallback(() => {
     if (mediaRecorderRef !== undefined) {
         mediaRecorderRef.stop()
     }
-    mediaRecorderRef = new MediaRecorder(refs['{{ ref }}'].current.stream, {mimeType: 'video/webm'});
+    try {
+        mediaRecorderRef = new MediaRecorder(refs['{{ ref }}'].current.stream, {mimeType: 'video/webm'});
+    } catch (e) {
+        {{ on_error }}({message: e.message});
+        return
+    }
     refs['mediarecorder_{{ ref }}'] = mediaRecorderRef
     mediaRecorderRef.addEventListener(
         "dataavailable",
@@ -32,7 +37,11 @@ refs['mediarecorder_start_{{ ref }}'] = useCallback(() => {
     {{ on_stop_callback }}
     {{ on_error_callback }}
     addEventListener('beforeunload', () => {mediaRecorderRef.stop()})
-    mediaRecorderRef.start({{ timeslice }})
+    try {
+        mediaRecorderRef.start({{ timeslice }})
+    } catch (e) {
+        {{ on_error }}({message: e.message});
+    }
 })
 """
 

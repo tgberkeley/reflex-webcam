@@ -31,6 +31,7 @@ VIDEO_TAB = "video_tab"
 
 
 class State(rx.State):
+    last_error: str = ""
     last_screenshot: Image.Image | None = None
     last_screenshot_timestamp: str = ""
     loading: bool = False
@@ -41,6 +42,10 @@ class State(rx.State):
     @rx.event
     def set_active_tab(self, tab_value: str):
         self.active_tab = tab_value
+
+    @rx.event
+    def set_last_error(self, error: dict):
+        self.last_error = str(error)
 
     @rx.event
     def handle_screenshot(self, img_data_uri: str):
@@ -71,6 +76,7 @@ class State(rx.State):
 
     @rx.event
     def on_start_recording(self):
+        self.last_error = ""
         self.recording = True
         self.n_recordings += 1
         print("Started recording")  # noqa: T201
@@ -118,6 +124,10 @@ def webcam_upload_component(ref: str) -> rx.Component:
         A reflex component.
     """
     return rx.vstack(
+        rx.cond(
+            State.last_error != "",
+            rx.callout(State.last_error, color_scheme="red"),
+        ),
         webcam_obj := webcam(
             id=ref,
             audio=True,
@@ -126,6 +136,7 @@ def webcam_upload_component(ref: str) -> rx.Component:
             on_data_available=State.handle_video_chunk,
             on_start=State.on_start_recording,
             on_stop=State.on_stop_recording,
+            on_error=State.set_last_error,
         ),
         rx.cond(
             ~State.recording,
