@@ -5,7 +5,7 @@ Package for a webcam for the [Reflex Framework](https://github.com/reflex-dev/re
 
 ## ⚙️ Installation
 
-Open a terminal and run (Requires Python 3.8+):
+Open a terminal and run (Requires Python 3.10+):
 
 ```bash
 pip install reflex-webcam
@@ -120,3 +120,8 @@ reflex run
 ```
 
 You should see your app running at http://localhost:3000.
+
+## Limitations
+
+Currently the recording mechanism hardcodes `webm` as the video format, which is
+not supported by Safari.
